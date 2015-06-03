@@ -2,7 +2,7 @@
 
 $servername = "localhost";
 $username = "root";
-$password = "root";
+$password = "19902apple";
 $dbname = "VISA";
 
 // Create connection

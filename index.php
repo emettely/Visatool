@@ -1,5 +1,6 @@
 <?php
 require_once('includes/config.php');
+require_once('includes/getCompanyNo.php');
 ?>
 
 <!DOCTYPE html>
@@ -99,17 +100,26 @@ require_once('includes/config.php');
                     </div>
                 </div> -->
                 <?php
-                include('includes/query.php');
+                // include('includes/query.php');
+                // getCompanyNo("(aq) Limited");
+                // getCompanyNo("?What If! Ltd");
+                // getCompanyNo("101 Thai Kitchen");
+                getCompanyNo("1000heads Ltd");
+               
                 ?>
+
+
+
                 <form>
                     <div class="row">
                         <div class="form-group col-lg-8 col-lg-offset-2">
                             <input type="" class="form-control" id="keyword" placeholder="Enter Keyword">
                         </div>
+                        <!-- Fields -->
                         <td class="form-group">
                             <select class="form-control" name="Country"> 
-                                <option value="<?php echo "nothing" ?>">
-                                    <?php echo $student->GroupID ?>
+                                <option value="<?php echo "Country" ?>">
+                                    <?php echo $row[1] ?>
                                 </option>
                                 <?php foreach ($group as $g):?> 
                                 <option name = "GroupID" value="<?php echo $g->GroupID ?>">
@@ -119,41 +129,41 @@ require_once('includes/config.php');
                         </select>
                     </td>
                     <td class="form-group">
-                            <select class="form-control" name="County"> 
-                                <option value="<?php echo "nothing" ?>">
-                                    <?php echo $student->GroupID ?>
-                                </option>
-                                <?php foreach ($group as $g):?> 
-                                <option name = "GroupID" value="<?php echo $g->GroupID ?>">
-                                    <?php echo $g->GroupID ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </td>
-                    <td class="form-group">
-                            <select class="form-control" name="City"> 
-                                <option value="<?php echo "nothing" ?>">
-                                    <?php echo $student->GroupID ?>
-                                </option>
-                                <?php foreach ($group as $g):?> 
-                                <option name = "GroupID" value="<?php echo $g->GroupID ?>">
-                                    <?php echo $g->GroupID ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </td>
-                </div>
-            </div>
-            <div class="col-lg-8 col-lg-offset-2 text-center">
-                <button type="submit" class="btn btn-lg btn-outline2">
-                    <i class="fa fa-search"></i> Search
-                </a>
-            </div>
-        </form>
+                        <select class="form-control" name="County"> 
+                            <option value="<?php echo "nothing" ?>">
+                                <?php echo $student->GroupID ?>
+                            </option>
+                            <?php foreach ($group as $g):?> 
+                            <option name = "GroupID" value="<?php echo $g->GroupID ?>">
+                                <?php echo $g->GroupID ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+                <td class="form-group">
+                    <select class="form-control" name="City"> 
+                        <option value="<?php echo "nothing" ?>">
+                            <?php echo $student->GroupID ?>
+                        </option>
+                        <?php foreach ($group as $g):?> 
+                        <option name = "GroupID" value="<?php echo $g->GroupID ?>">
+                            <?php echo $g->GroupID ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </td>
+        </div>
+    </div>
+    <div class="col-lg-8 col-lg-offset-2 text-center">
+        <button type="submit" class="btn btn-lg btn-outline2">
+            <i class="fa fa-search"></i> Search
+        </a>
+    </div>
+</form>
 
-        <?php
+<?php
 
-        ?>
+?>
             <!-- <div class="row">
                 <div class="col-sm-4 portfolio-item">
                     <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
