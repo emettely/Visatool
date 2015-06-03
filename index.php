@@ -100,12 +100,12 @@ require_once('includes/getCompanyNo.php');
                     </div>
                 </div> -->
                 <?php
-                // include('includes/query.php');
+                include('includes/query.php');
                 // getCompanyNo("(aq) Limited");
-                // getCompanyNo("?What If! Ltd");
+                // getCompanyNo("@ Home Accommodation Services Ltd");
                 // getCompanyNo("101 Thai Kitchen");
-                getCompanyNo("1000heads Ltd");
-               
+                // getCompanyNo("1000heads Ltd");
+
                 ?>
 
 

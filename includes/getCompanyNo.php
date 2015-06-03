@@ -27,7 +27,7 @@ function getCompanyNo($companyName){
 			updateInfo($originalName, $regNo);
 
 		} else {
-			echo "Could not find Registration Number.";
+			echo "Could not find Registration Number.<br>";
 			cleanAndTry ($companyName);
 		}
 	} else {
@@ -39,18 +39,21 @@ function getCompanyNo($companyName){
 function cleanAndTry ($companyName){
 	global $hasCleaned;
 	global $cleanedTwice;
+	global $clean;
 
 	if (!$hasCleaned){
 
 		echo "cleaning... <br>";
 		$hasCleaned = TRUE;
-		$clean = removeSpace($companyName);
+		$clean = replaceWithDash($companyName, ' ');
+		// echo "cleaned1 is " . $clean;
 		getCompanyNo($clean);
 
 	} else if ($hasCleaned && !$cleanedTwice) {
 
 		echo "cleaning again... <br>";
 		$cleanedTwice = TRUE;
+		echo "cleaned is " . $clean;
 		$clean2 = escape($clean);
 		getCompanyNo($clean2);
 
@@ -69,18 +72,20 @@ function storeOriginal ($name){
 
 	if (!$hasCleaned) {
 		$originalName = $name;
-		echo $originalName . "original Name here: <br>";
+		echo $originalName . " :original Name here: <br>";
 	}
 }
 
 function escape($companyName){
 	global $conn;
 
-	if(!preg_match('/^\[a-zA-Z]+$/',$input)) {
+	if(!preg_match('/^\[a-zA-Z]+$/', $companyName)) {
    // String contains not allowed characters ...
-		echo "Special case ... <br>";
-		$companyName = $conn->real_escape_string($companyName);
-		echo "Escaped!<br>";
+		echo "Special case for " . $companyName . " ... <br>";
+		// $companyName = $conn->real_escape_string($companyName);
+		// $companyName = strtolower($companyName);
+		$companyName = preg_replace('/[^a-zA-Z0-9 -]+/', '', $companyName);
+		echo "Result: " . $companyName . "<br>Escaped!<br>";
 		return $companyName;
 	} else {
 		return $companyName;
@@ -88,21 +93,27 @@ function escape($companyName){
 	}
 }
 
-function removeSpace($text){
-	return str_replace(' ', '', $text);
+function replaceWithDash($text, $getRidOf){
+	return str_replace($getRidOf, '-', $text);
+}
+
+function isExist($companyName){
+
 }
 
 function updateInfo($companyName, $regNo){
 	global $conn;
-	$sqlCompanyName = "\"". $companyName ."\"";
-	echo $sqlCompanyName . "<br>";
-	$sql = $conn->prepare("UPDATE Organisation SET RegNo =? WHERE OrganisationName =?");
+	// $sqlCompanyName = "\'". $companyName ."\'";
+	
+	echo $companyName . "<br>";
+	// working: UPDATE `Organisation` SET `RegNo`=04038783 WHERE `OrganisationName`='1000heads Ltd'
+	$sql = $conn->prepare("UPDATE Organisation SET RegNo=? WHERE OrganisationName=?");
 
 	if (!$sql) {
 		die ('mysqli error: '.mysqli_error($connection));
 	}
 
-	$sql->bind_param('is', $regNo, $sqlCompanyName);
+	$sql->bind_param('is', $regNo, $companyName);
 
 	if (!mysqli_execute($sql)) {
 		die('stmt error: '.mysqli_stmt_error($sql));
@@ -122,6 +133,17 @@ function getRegNofromExplode($string){
 	preg_match_all('!\d+!', $lines[1], $companyNo);
 	$regNo = $companyNo[0][0];
 	return $regNo;
+}
+
+function checkAllNames(){
+	global $string;
+//for all the items check using checkifmatchingcompany
+}
+
+function matchingCompany($companyName, $givenName){
+
+	//if company name == given name return true.
+
 }
 
 ?>
