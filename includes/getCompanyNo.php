@@ -6,6 +6,7 @@
 $hasCleaned = FALSE;
 $cleanedTwice = FALSE;
 $originalName = NULL;
+$api_key = "rbj4nzvr2jn934qtacurcwnm";
 
 function getCompanyNo($companyName){
 
@@ -17,13 +18,12 @@ function getCompanyNo($companyName){
 	if (!is_null($conn)){
 
 		storeOriginal($companyName);
-		$url = "http://api.duedil.com/open/search?q=" . $companyName . "&api_key=rbj4nzvr2jn934qtacurcwnm";
+		$url = "http://api.duedil.com/open/search?q=" . $companyName . "&api_key=" . $api_key;
 		$string = file_get_contents($url);
 
 		if (!empty($string)){
 
 			$regNo = getRegNofromExplode($string);
-
 			updateInfo($originalName, $regNo);
 
 		} else {
@@ -60,6 +60,7 @@ function cleanAndTry ($companyName){
 	} else {
 
 		echo "Despite our efforts, could not find the registration number.<br>";
+		updateInfo($originalName, 1); //insert 1 for searched but not found.
 		$hasCleaned = FALSE;
 		$cleanedTwice = FALSE;
 
@@ -72,7 +73,7 @@ function storeOriginal ($name){
 
 	if (!$hasCleaned) {
 		$originalName = $name;
-		echo $originalName . " :original Name here: <br>";
+		echo $originalName . ": original name.<br>";
 	}
 }
 
@@ -95,10 +96,6 @@ function escape($companyName){
 
 function replaceWithDash($text, $getRidOf){
 	return str_replace($getRidOf, '-', $text);
-}
-
-function isExist($companyName){
-
 }
 
 function updateInfo($companyName, $regNo){
@@ -141,9 +138,29 @@ function checkAllNames(){
 }
 
 function matchingCompany($companyName, $givenName){
-
 	//if company name == given name return true.
 
+}
+
+function getPostCode($regNo){
+	global $api_key;
+	$string = file_get_contents("http://api.duedil.com/open/uk/company/" . $regNo . "?api_key=" . $api_key);
+	print_r($string);
+//explode
+
+}
+
+function findCounty($postcode){
+	$string = file_get_contents("https://api.postcodes.io/postcodes/:" . $postcode);
+	print_r($string);
+//explode admin_county
+
+}
+
+function findCountry($postcode){
+	$string = file_get_contents("https://api.postcodes.io/postcodes/:" . $postcode);
+print_r($string);
+//explode country
 }
 
 ?>
