@@ -12,9 +12,9 @@ if ($result->num_rows > 0) {
         // echo "";
 		echo $row["Name"] . " ";
 		echo $row["RegNo"] . "<br>";
-		if ($row["RegNo"]== 0) {
-			getCompanyNo($row["Name"]);
-		}
+		// if ($row["RegNo"] == 0) {
+			// getCompanyNo($row["Name"]);
+		// }
 	}
 } else {
 	echo "0 results";

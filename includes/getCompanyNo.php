@@ -40,6 +40,7 @@ function cleanAndTry ($companyName){
 	global $hasCleaned;
 	global $cleanedTwice;
 	global $clean;
+	global $originalName;
 
 	if (!$hasCleaned){
 
@@ -60,7 +61,8 @@ function cleanAndTry ($companyName){
 	} else {
 
 		echo "Despite our efforts, could not find the registration number.<br>";
-		updateInfo($originalName, 1); //insert 1 for searched but not found.
+		$instead = 1;
+		updateInfo($originalName, $instead); //insert 1 for searched but not found.
 		$hasCleaned = FALSE;
 		$cleanedTwice = FALSE;
 
@@ -100,9 +102,7 @@ function replaceWithDash($text, $getRidOf){
 
 function updateInfo($companyName, $regNo){
 	global $conn;
-	// $sqlCompanyName = "\'". $companyName ."\'";
-	
-	echo $companyName . "<br>";
+	echo "Updating " . $companyName . " with " . $regNo . "<br>";
 	// working: UPDATE `Organisation` SET `RegNo`=04038783 WHERE `OrganisationName`='1000heads Ltd'
 	$sql = $conn->prepare("UPDATE Organisation SET RegNo=? WHERE OrganisationName=?");
 
@@ -117,7 +117,7 @@ function updateInfo($companyName, $regNo){
 	}
 
 	if ($sql->execute() === TRUE) {
-		echo "Record updated successfully " . $regNo . "<br>";
+		echo "Record updated successfully to " . $regNo . "<br>";
 		return $regNo;
 
 	} else {
